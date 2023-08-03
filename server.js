@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const db = require('./db/db');
+const db = require('C:\\Users\\INTEL\\Documents\\GitHub\\App-basico\\db');
 
 const PORT = process.env.PORT || 3000;
 
