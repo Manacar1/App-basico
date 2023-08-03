@@ -4,7 +4,34 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// Create
+// Rota para obter todos os todos
+router.get('/todos', (req, res) => {
+  db.query('SELECT * FROM todos', (err, results) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Rota para obter um todo por ID
+router.get('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT * FROM todos WHERE id = ?', [id], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).json({ message: 'Todo not found' });
+      return;
+    }
+    res.json(results[0]);
+  });
+});
+
+// Rota para criar um novo todo
 router.post('/todos', (req, res) => {
   const { title, description } = req.body;
   db.query('INSERT INTO todos (title, description) VALUES (?, ?)', [title, description], (err, result) => {
@@ -16,23 +43,7 @@ router.post('/todos', (req, res) => {
   });
 });
 
-// Read
-router.get('/todos/:id', (req, res) => {
-  const id = req.params.id;
-  db.query('SELECT * FROM todos WHERE id = ?', [id], (err, result) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    if (result.length === 0) {
-      res.status(404).json({ message: 'Todo not found' });
-      return;
-    }
-    res.json(result[0]);
-  });
-});
-
-// Update
+// Rota para atualizar um todo por ID
 router.put('/todos/:id', (req, res) => {
   const id = req.params.id;
   const { title, description } = req.body;
@@ -49,7 +60,7 @@ router.put('/todos/:id', (req, res) => {
   });
 });
 
-// Delete
+// Rota para excluir um todo por ID
 router.delete('/todos/:id', (req, res) => {
   const id = req.params.id;
   db.query('DELETE FROM todos WHERE id = ?', [id], (err, result) => {
