@@ -1,4 +1,8 @@
-
+//todos: Rota para obter todos os todos (tarefas).
+//todos/:id: Rota para obter um todo por ID.
+//todos: Rota para criar um novo todo.
+//todos/:id: Rota para atualizar um todo por ID.
+//todos/:id: Rota para excluir um todo por ID.
 
 const express = require('express');
 const router = express.Router();
