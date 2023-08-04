@@ -1,0 +1,42 @@
+stages:
+  - build
+  - test
+  - deploy_test
+  - integration_test
+  - deploy_production
+
+# Estágio de construção
+build:
+  stage: build
+  script:
+    - npm install
+
+# Estágio de testes
+test:
+  stage: test
+  script:
+    - npm test
+
+# Estágio de implantação em ambiente de teste
+deploy_test:
+  stage: deploy_test
+  script:
+    - echo "Deploying to test environment"
+  environment:
+    name: test
+
+# Estágio de testes de integração
+integration_test:
+  stage: integration_test
+  script:
+    - echo "Running integration tests"
+
+# Estágio de implantação em ambiente de produção
+deploy_production:
+  stage: deploy_production
+  script:
+    - echo "Deploying to production environment"
+  environment:
+    name: production
+  only:
+    - master
